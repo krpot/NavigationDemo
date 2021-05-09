@@ -37,7 +37,7 @@ class ScreensNavigator(
     }
 
 
-    private fun getNavigationIdFromSessionInfo(): Int {
+    private fun getDestinationIdFromSession(): Int {
         return when {
             !sessionStore.isLoggedIn -> R.id.loginFragment
             sessionStore.isLoggedIn && !sessionStore.onBoarded -> R.id.onboardFragment
@@ -46,7 +46,7 @@ class ScreensNavigator(
         }
     }
 
-    fun goToOnboard() {
+    private fun goToOnboard() {
         navController.navigate(R.id.onboardFragment, null, clearBackStack)
     }
 
@@ -58,13 +58,13 @@ class ScreensNavigator(
         navController.navigate(R.id.loginFragment)
     }
 
-    fun loginToHome() {
+    private fun loginToHome() {
         navController.navigate(R.id.navigation_home, null, clearBackStack)
     }
 
     fun goToOnboardOrHome() {
-        when (getNavigationIdFromSessionInfo()) {
-            R.id.loginFragment -> throw IllegalStateException("Invalid destination id: R.id.loginFragment")
+        when (getDestinationIdFromSession()) {
+            R.id.loginFragment -> throw IllegalStateException("Invalid destination id: R.id.loginFragment. It shoud in login state.")
             R.id.onboardFragment -> goToOnboard()
             R.id.navigation_home -> loginToHome()
         }
