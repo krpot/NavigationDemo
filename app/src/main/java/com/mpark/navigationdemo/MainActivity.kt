@@ -3,52 +3,63 @@ package com.mpark.navigationdemo
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.mpark.navigationdemo.common.di.AppModule
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.mpark.navigationdemo.databinding.ActivityMainBinding
-import com.mpark.navigationdemo.ui.common.navigation.NavigationBinding
 import com.mpark.navigationdemo.ui.common.navigation.ScreensNavigator
-import com.mpark.navigationdemo.ui.common.viewmodel.ViewModelFactory
 import com.mpark.navigationdemo.ui.login.LoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private val appBarConfiguration = AppBarConfiguration(
+        setOf(
+            R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+        )
+    )
+
     private lateinit var screensNavigator: ScreensNavigator
 
     val navigator: ScreensNavigator
         get() = screensNavigator
 
-    val appModule: AppModule by lazy {
-        (application as NavigateDemoApp).appModule
+    private val loginViewModel: LoginViewModel by viewModels()
+
+    private val binding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
     }
-
-    private val loginViewModel by viewModels<LoginViewModel> { ViewModelFactory(appModule) }
-
-    private val navBinding by lazy { NavigationBinding(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = navBinding.binding
-        setContentView(binding.root)
-
         setupToolbar()
-        setupScreensNavigator()
+        setupNavigation()
+        setContentView(binding.root)
+    }
+
+    val navController: NavController by lazy {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        navHostFragment.navController
     }
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
     }
 
-    private fun setupScreensNavigator() {
-        screensNavigator = ScreensNavigator(
-            navBinding = navBinding,
-            sessionStore = appModule.sessionStore
-        )
+    private fun setupNavigation() {
+        binding.navView.setupWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return screensNavigator.onSupportNavigateUp() || super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration)
+                || super.onSupportNavigateUp()
     }
 
     override fun finish() {

@@ -15,8 +15,9 @@ import androidx.lifecycle.Observer
 import com.mpark.navigationdemo.R
 import com.mpark.navigationdemo.databinding.FragmentLoginBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
-import com.mpark.navigationdemo.ui.common.viewmodel.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : BaseFragment() {
 
     private var mutableBinding: FragmentLoginBinding? = null
@@ -25,7 +26,7 @@ class LoginFragment : BaseFragment() {
     // onDestroyView.
     private val binding get() = requireNotNull(mutableBinding)
 
-    private val loginViewModel by viewModels<LoginViewModel> { ViewModelFactory(appModule) }
+    private val loginViewModel:LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

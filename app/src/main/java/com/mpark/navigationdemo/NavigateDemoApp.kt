@@ -1,17 +1,8 @@
 package com.mpark.navigationdemo
 
 import android.app.Application
-import com.mpark.navigationdemo.common.di.AppModule
+import dagger.hilt.android.HiltAndroidApp
 
-class NavigateDemoApp: Application() {
-
-    private lateinit var mutableAppModule: AppModule
-    val appModule: AppModule
-        get() = mutableAppModule
-
-
-    override fun onCreate() {
-        super.onCreate()
-        mutableAppModule = AppModule(this)
-    }
+@HiltAndroidApp
+class NavigateDemoApp : Application() {
 }

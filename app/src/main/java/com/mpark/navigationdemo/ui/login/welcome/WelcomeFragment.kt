@@ -8,14 +8,15 @@ import androidx.fragment.app.viewModels
 import com.mpark.navigationdemo.R
 import com.mpark.navigationdemo.databinding.FragmentWelcomeBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
-import com.mpark.navigationdemo.ui.common.viewmodel.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class WelcomeFragment : BaseFragment() {
 
     private var mutableBinding: FragmentWelcomeBinding? = null
     private val binding get() = requireNotNull(mutableBinding)
 
-    private val welcomeViewModel by viewModels<WelcomeViewModel> { ViewModelFactory(appModule) }
+    private val welcomeViewModel: WelcomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

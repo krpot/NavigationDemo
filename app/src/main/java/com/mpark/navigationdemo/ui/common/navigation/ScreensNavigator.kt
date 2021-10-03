@@ -1,11 +1,14 @@
 package com.mpark.navigationdemo.ui.common.navigation
 
+import android.content.Context
 import androidx.navigation.NavOptions
+import com.mpark.navigationdemo.MainActivity
 import com.mpark.navigationdemo.R
 import com.mpark.navigationdemo.data.SessionStore
+import dagger.hilt.android.qualifiers.ActivityContext
 
 class ScreensNavigator(
-    private val navBinding: NavigationBinding,
+    @ActivityContext private val context: Context,
     private val sessionStore: SessionStore
 ) {
 
@@ -15,16 +18,7 @@ class ScreensNavigator(
             .build()
     }
 
-    private val navController get() = navBinding.navController
-
-    init {
-        setup()
-    }
-
-    private fun setup() {
-        navBinding.setup()
-        goToLoginOrOnboardFlow()
-    }
+    private val navController get() = (context as MainActivity).navController
 
     private fun goToLoginOrOnboardFlow() {
         val destinationId =
@@ -68,9 +62,5 @@ class ScreensNavigator(
             R.id.onboardFragment -> goToOnboard()
             R.id.navigation_home -> loginToHome()
         }
-    }
-
-    fun onSupportNavigateUp(): Boolean {
-        return navBinding.onSupportNavigateUp()
     }
 }

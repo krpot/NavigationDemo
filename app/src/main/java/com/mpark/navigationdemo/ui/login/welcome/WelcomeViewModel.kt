@@ -3,9 +3,11 @@ package com.mpark.navigationdemo.ui.login.welcome
 import androidx.lifecycle.*
 import com.mpark.navigationdemo.domain.LoginRepository
 import com.mpark.navigationdemo.ui.login.LoggedInUserView
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-
-class WelcomeViewModel(
+@HiltViewModel
+class WelcomeViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 

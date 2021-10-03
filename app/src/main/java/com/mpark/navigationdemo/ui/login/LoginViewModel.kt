@@ -8,11 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.mpark.navigationdemo.R
 import com.mpark.navigationdemo.domain.LoginRepository
 import com.mpark.navigationdemo.common.result.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import javax.security.auth.login.LoginException
 
-
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 

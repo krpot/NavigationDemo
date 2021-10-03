@@ -4,12 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mpark.navigationdemo.data.SessionStore
 import com.mpark.navigationdemo.databinding.FragmentOnboardBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OnboardFragment : BaseFragment() {
 
+    @Inject
+    lateinit var sessionStore: SessionStore
+
     private var mutableBinding: FragmentOnboardBinding? = null
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = requireNotNull(mutableBinding)
@@ -30,7 +38,7 @@ class OnboardFragment : BaseFragment() {
 
     private fun setupViews() {
         binding.doneBtn.setOnClickListener {
-            appModule.sessionStore.onBoarded = true
+            sessionStore.onBoarded = true
             screensNavigator.onboardToHome()
         }
     }

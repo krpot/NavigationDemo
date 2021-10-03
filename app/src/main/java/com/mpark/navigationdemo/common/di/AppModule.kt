@@ -2,36 +2,43 @@ package com.mpark.navigationdemo.common.di
 
 import android.content.Context
 import androidx.preference.PreferenceManager
-import com.mpark.navigationdemo.NavigateDemoApp
 import com.mpark.navigationdemo.common.dispatcher.DispatchersProvider
 import com.mpark.navigationdemo.data.LoginDataSource
-import com.mpark.navigationdemo.domain.LoginRepository
 import com.mpark.navigationdemo.data.SessionStore
+import com.mpark.navigationdemo.domain.LoginRepository
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-class AppModule(
-    private val app: NavigateDemoApp
-) {
+@InstallIn(SingletonComponent::class)
+@Module
+object AppModule {
 
-    private val appContext: Context
-        get() = app.applicationContext
-
-    val sessionStore: SessionStore by lazy {
+    @Provides
+    @Singleton
+    fun sessionStore(@ApplicationContext appContext: Context): SessionStore =
         SessionStore(preferences = PreferenceManager.getDefaultSharedPreferences(appContext))
-    }
 
-    val dispatchers: DispatchersProvider by lazy {
-        DispatchersProvider()
-    }
+    @Provides
+    fun dispatchers(): DispatchersProvider = DispatchersProvider()
 
-    val loginRepository: LoginRepository by lazy {
+    @Provides
+    @Singleton
+    fun loginRepository(
+        loginDataSource: LoginDataSource,
+        sessionStore: SessionStore,
+        dispatchers: DispatchersProvider,
+    ): LoginRepository =
         LoginRepository(
             dataSource = loginDataSource,
             sessionStore = sessionStore,
             dispatcher = dispatchers
         )
-    }
 
-    private val loginDataSource: LoginDataSource by lazy {
-        LoginDataSource()
-    }
+    @Provides
+    @Singleton
+    fun loginDataSource(): LoginDataSource = LoginDataSource()
 }

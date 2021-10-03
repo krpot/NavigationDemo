@@ -9,13 +9,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.mpark.navigationdemo.databinding.FragmentHomeBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
     private var mutableBinding: FragmentHomeBinding? = null
     private val binding get() = requireNotNull(mutableBinding)
 
-    private val homeViewModel by viewModels<HomeViewModel>()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
