@@ -1,6 +1,8 @@
 package com.mpark.navigationdemo.ui.login.welcome
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import com.mpark.navigationdemo.domain.LoginRepository
 import com.mpark.navigationdemo.ui.login.LoggedInUserView
 import dagger.hilt.android.lifecycle.HiltViewModel

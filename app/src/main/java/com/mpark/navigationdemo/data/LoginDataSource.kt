@@ -1,7 +1,7 @@
 package com.mpark.navigationdemo.data
 
-import com.mpark.navigationdemo.domain.AppUser.LoggedInUser
 import com.mpark.navigationdemo.common.result.Result
+import com.mpark.navigationdemo.domain.AppUser.LoggedInUser
 import java.io.IOException
 import javax.security.auth.login.LoginException
 

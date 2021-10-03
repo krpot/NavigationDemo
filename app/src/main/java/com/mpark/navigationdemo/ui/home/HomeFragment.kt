@@ -10,9 +10,7 @@ import androidx.lifecycle.Observer
 import com.mpark.navigationdemo.databinding.FragmentHomeBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
 import com.mpark.navigationdemo.ui.common.navigation.Destinations
-import com.mpark.navigationdemo.ui.common.navigation.NavManager
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {

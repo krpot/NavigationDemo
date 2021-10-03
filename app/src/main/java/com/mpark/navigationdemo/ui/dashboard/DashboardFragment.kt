@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.mpark.navigationdemo.databinding.FragmentDashboardBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
-import com.mpark.navigationdemo.ui.home.HomeViewModel
 
 class DashboardFragment : BaseFragment() {
 
