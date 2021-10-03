@@ -9,7 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.mpark.navigationdemo.databinding.FragmentHomeBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
+import com.mpark.navigationdemo.ui.common.navigation.Destinations
+import com.mpark.navigationdemo.ui.common.navigation.NavManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
@@ -25,17 +28,28 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         mutableBinding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViews()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         mutableBinding = null
     }
+
+    private fun setupViews() {
+        val textView: TextView = binding.textHome
+        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+            textView.text = it
+        })
+
+        binding.logout.setOnClickListener {
+            navManager.navigate(Destinations.logout)
+        }
+    }
+
 }

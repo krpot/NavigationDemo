@@ -24,6 +24,14 @@ object Destinations {
         )
     }
 
+    val logout: NavDestination by lazy {
+        NavDestination(
+            navId = R.id.welcomeFragment,
+            isSingleTop = true,
+            popUpTo = NavPopUpTo(R.id.mobile_navigation)
+        )
+    }
+
     val onboard: NavDestination by lazy {
         NavDestination(
             navId = R.id.onboardFragment,
