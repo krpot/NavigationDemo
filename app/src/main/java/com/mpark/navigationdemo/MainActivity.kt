@@ -3,38 +3,34 @@ package com.mpark.navigationdemo
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mpark.navigationdemo.databinding.ActivityMainBinding
-import com.mpark.navigationdemo.ui.common.navigation.Destinations.NAV_UI
 import com.mpark.navigationdemo.ui.common.navigation.NavManager
-import com.mpark.navigationdemo.ui.common.navigation.NavUi
+import com.mpark.navigationdemo.ui.common.navigation.appBarConfiguration
+import com.mpark.navigationdemo.ui.common.protocol.NavigationAware
 import com.mpark.navigationdemo.ui.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationAware {
 
-    private val appBarConfiguration = AppBarConfiguration(
-        setOf(
-            R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-        )
-    )
-
-    val navController: NavController by lazy {
+    override val navController: NavController by lazy {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navHostFragment.navController
     }
 
     @Inject
-    lateinit var navManager: NavManager
+    override lateinit var navManager: NavManager
+
+    override val toolbar: MaterialToolbar get() = binding.toolbar
+    override val bottomNavView: BottomNavigationView get() = binding.bottomNavView
 
     private val loginViewModel: LoginViewModel by viewModels()
 
@@ -56,17 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavigation() {
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.apply {
-            bottomNavView.setupWithNavController(navController)
-            navController.addOnDestinationChangedListener { _, _, arguments ->
-                if (navManager.checkSessionExpired()) return@addOnDestinationChangedListener
-
-                val navUi: NavUi = (arguments?.getSerializable(NAV_UI) as? NavUi) ?: NavUi.default
-                toolbar.isVisible = navUi.hasToolbar
-                bottomNavView.isVisible = navUi.hasBottomView
-            }
-        }
+        setupBottomNavigation()
     }
 
     override fun onSupportNavigateUp(): Boolean {
