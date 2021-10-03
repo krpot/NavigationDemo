@@ -9,6 +9,7 @@ import com.mpark.navigationdemo.R
 import com.mpark.navigationdemo.common.result.Result
 import com.mpark.navigationdemo.domain.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.security.auth.login.LoginException
@@ -71,7 +72,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun logout() {
-        viewModelScope.launch {
+        viewModelScope.launch(NonCancellable) {
             loginRepository.logout()
         }
     }

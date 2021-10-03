@@ -1,20 +1,19 @@
 package com.mpark.navigationdemo
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.navigation.NavigationBarView
 import com.mpark.navigationdemo.databinding.ActivityMainBinding
-import com.mpark.navigationdemo.ui.common.navigation.Destinations
+import com.mpark.navigationdemo.ui.common.navigation.Destinations.NAV_UI
 import com.mpark.navigationdemo.ui.common.navigation.NavManager
-import com.mpark.navigationdemo.ui.common.navigation.ScreensNavigator
+import com.mpark.navigationdemo.ui.common.navigation.NavUi
 import com.mpark.navigationdemo.ui.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -59,14 +58,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.apply {
-            navView.setupWithNavController(navController)
-            navView.setOnItemSelectedListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.navigation_home -> navManager.navigate(Destinations.home)
-                    R.id.navigation_dashboard -> navManager.navigate(Destinations.dashboard)
-                    R.id.navigation_notifications -> navManager.navigate(Destinations.notifications)
-                }
-                true
+            bottomNavView.setupWithNavController(navController)
+            navController.addOnDestinationChangedListener { _, _, arguments ->
+                if (navManager.checkSessionExpired()) return@addOnDestinationChangedListener
+
+                val navUi: NavUi = (arguments?.getSerializable(NAV_UI) as? NavUi) ?: NavUi.default
+                toolbar.isVisible = navUi.hasToolbar
+                bottomNavView.isVisible = navUi.hasBottomView
             }
         }
     }

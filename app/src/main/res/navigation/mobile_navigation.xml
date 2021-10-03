@@ -26,14 +26,13 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.mpark.navigationdemo.ui.login.LoginFragment"
-        android:label="@string/title_login"
         tools:layout="@layout/fragment_login" />
+
     <fragment
         android:id="@+id/onboardFragment"
-        android:name="com.mpark.navigationdemo.ui.login.onboard.OnboardFragment"
-        android:label="@string/title_onboard" />
+        android:name="com.mpark.navigationdemo.ui.login.onboard.OnboardFragment" />
+
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.mpark.navigationdemo.ui.login.welcome.WelcomeFragment"
-        android:label="@string/title_welcome" />
+        android:name="com.mpark.navigationdemo.ui.login.welcome.WelcomeFragment" />
 </navigation>

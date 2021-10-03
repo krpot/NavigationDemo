@@ -5,13 +5,15 @@ import com.mpark.navigationdemo.R
 
 object Destinations {
 
+    const val NAV_UI = "NavUi"
     const val IS_SESSION_EXPIRED = "IsSessionExpired"
 
     val login: NavDestination by lazy {
         NavDestination(
             navId = R.id.loginFragment,
             isSingleTop = true,
-            popUpTo = NavPopUpTo(R.id.mobile_navigation)
+            popUpTo = NavPopUpTo(R.id.mobile_navigation),
+            args = bundleOf(NAV_UI to NavUi.noNavUi)
         )
     }
 
@@ -20,7 +22,10 @@ object Destinations {
             navId = R.id.loginFragment,
             isSingleTop = true,
             popUpTo = NavPopUpTo(R.id.mobile_navigation),
-            args = bundleOf(IS_SESSION_EXPIRED to true)
+            args = bundleOf(
+                NAV_UI to NavUi.noNavUi,
+                IS_SESSION_EXPIRED to true
+            )
         )
     }
 
@@ -28,7 +33,8 @@ object Destinations {
         NavDestination(
             navId = R.id.welcomeFragment,
             isSingleTop = true,
-            popUpTo = NavPopUpTo(R.id.mobile_navigation)
+            popUpTo = NavPopUpTo(R.id.mobile_navigation),
+            args = bundleOf(NAV_UI to NavUi.noNavUi)
         )
     }
 
@@ -36,7 +42,8 @@ object Destinations {
         NavDestination(
             navId = R.id.onboardFragment,
             isSingleTop = true,
-            popUpTo = NavPopUpTo(R.id.mobile_navigation)
+            popUpTo = NavPopUpTo(R.id.mobile_navigation),
+            args = bundleOf(NAV_UI to NavUi.noNavUi)
         )
     }
 
@@ -44,7 +51,8 @@ object Destinations {
         NavDestination(
             navId = R.id.welcomeFragment,
             isSingleTop = true,
-            popUpTo = NavPopUpTo(R.id.mobile_navigation)
+            popUpTo = NavPopUpTo(R.id.mobile_navigation),
+            args = bundleOf(NAV_UI to NavUi.noNavUi)
         )
     }
 
@@ -52,23 +60,8 @@ object Destinations {
         NavDestination(
             navId = R.id.navigation_home,
             isSingleTop = true,
-            popUpTo = NavPopUpTo(R.id.mobile_navigation)
-        )
-    }
-
-    val dashboard: NavDestination by lazy {
-        NavDestination(
-            navId = R.id.navigation_dashboard,
-            isSingleTop = true,
-            popUpTo = NavPopUpTo(R.id.navigation_dashboard)
-        )
-    }
-
-    val notifications: NavDestination by lazy {
-        NavDestination(
-            navId = R.id.navigation_notifications,
-            isSingleTop = true,
-            popUpTo = NavPopUpTo(R.id.navigation_notifications)
+            popUpTo = NavPopUpTo(R.id.mobile_navigation),
+            args = bundleOf(NAV_UI to NavUi.mainMenu("Home"))
         )
     }
 }
