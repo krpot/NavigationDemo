@@ -2,7 +2,8 @@ package com.mpark.navigationdemo.data
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.mpark.navigationdemo.data.model.AppUser
+import com.mpark.navigationdemo.domain.AppUser
+import java.util.concurrent.TimeUnit
 
 class SessionStore(
     val preferences: SharedPreferences
@@ -15,6 +16,7 @@ class SessionStore(
 
     private var accessToken: String = ""
     private var loggedInUserId: String = ""
+    private var lastLoginTime: Long = 0L
 
     private var displayUserName: String
         get() = preferences.getString(KEY_DISPLAY_USER_NAME, "") ?: ""
@@ -45,6 +47,7 @@ class SessionStore(
                     loggedInUserId = value.userId
                     displayUserName = value.displayName
                     accessToken = value.accessToken
+                    lastLoginTime = System.currentTimeMillis()
                 }
             }
         }
@@ -63,5 +66,15 @@ class SessionStore(
     val loginCompleted: Boolean
         get() = isLoggedIn && onBoarded
 
+    fun checkSessionExpired(): Boolean {
+        // User session automatically will be expired in i minute
+        val sessionTimeSurpassed = System.currentTimeMillis() - lastLoginTime > TimeUnit.MINUTES.toMillis(1)
+        val isExpired = isLoggedIn && sessionTimeSurpassed
+        if (isExpired) {
+            accessToken = ""
+            appUser = AppUser.NonLoggedUser(displayUserName)
+        }
+        return isExpired
+    }
 
 }

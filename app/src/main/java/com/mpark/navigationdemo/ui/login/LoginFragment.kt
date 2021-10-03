@@ -10,11 +10,13 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.mpark.navigationdemo.R
 import com.mpark.navigationdemo.databinding.FragmentLoginBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
+import com.mpark.navigationdemo.ui.common.navigation.Destinations
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +28,7 @@ class LoginFragment : BaseFragment() {
     // onDestroyView.
     private val binding get() = requireNotNull(mutableBinding)
 
-    private val loginViewModel:LoginViewModel by viewModels()
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +41,11 @@ class LoginFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViews()
+        checkSessionExpired()
+    }
 
+    private fun setupViews() {
         val usernameEditText = binding.username
         val passwordEditText = binding.password
         val loginButton = binding.login
@@ -108,13 +114,18 @@ class LoginFragment : BaseFragment() {
         }
     }
 
+    private fun checkSessionExpired() {
+        val isSessionExpired = arguments?.getBoolean(Destinations.IS_SESSION_EXPIRED) ?: false
+        binding.sessionExpiredTxt.isVisible = isSessionExpired
+    }
+
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome) + model.displayName
         // TODO : initiate successful logged in experience
         val appContext = context?.applicationContext ?: return
         //Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
 
-        screensNavigator.goToOnboardOrHome()
+        navManager.goToOnboardOrHome()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

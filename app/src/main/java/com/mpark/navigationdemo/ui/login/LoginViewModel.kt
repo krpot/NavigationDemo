@@ -1,13 +1,13 @@
 package com.mpark.navigationdemo.ui.login
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import com.mpark.navigationdemo.R
-import com.mpark.navigationdemo.domain.LoginRepository
 import com.mpark.navigationdemo.common.result.Result
+import com.mpark.navigationdemo.domain.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

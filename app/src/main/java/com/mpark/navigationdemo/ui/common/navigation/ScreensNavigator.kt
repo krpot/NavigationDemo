@@ -6,8 +6,11 @@ import com.mpark.navigationdemo.MainActivity
 import com.mpark.navigationdemo.R
 import com.mpark.navigationdemo.data.SessionStore
 import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.scopes.ActivityScoped
+import javax.inject.Inject
 
-class ScreensNavigator(
+@ActivityScoped
+class ScreensNavigator @Inject constructor(
     @ActivityContext private val context: Context,
     private val sessionStore: SessionStore
 ) {
@@ -30,16 +33,6 @@ class ScreensNavigator(
         navController.navigate(destinationId, null, navOptions)
     }
 
-
-    private fun getDestinationIdFromSession(): Int {
-        return when {
-            !sessionStore.isLoggedIn -> R.id.loginFragment
-            sessionStore.isLoggedIn && !sessionStore.onBoarded -> R.id.onboardFragment
-            sessionStore.loginCompleted -> R.id.navigation_home
-            else -> throw IllegalStateException("Cannot handle unexpected navigation")
-        }
-    }
-
     private fun goToOnboard() {
         navController.navigate(R.id.onboardFragment, null, clearBackStack)
     }
@@ -56,11 +49,20 @@ class ScreensNavigator(
         navController.navigate(R.id.navigation_home, null, clearBackStack)
     }
 
-    fun goToOnboardOrHome() {
-        when (getDestinationIdFromSession()) {
-            R.id.loginFragment -> throw IllegalStateException("Invalid destination id: R.id.loginFragment. It shoud in login state.")
-            R.id.onboardFragment -> goToOnboard()
-            R.id.navigation_home -> loginToHome()
-        }
+    fun navigate(destination: NavDestination) {
+        val navOptions = NavOptions.Builder().apply {
+            if (destination.isSingleTop) setLaunchSingleTop(true)
+            destination.popUpTo?.also { popUpTo ->
+                setPopUpTo(popUpTo.navId, popUpTo.isInclusive)
+            }
+        }.build()
+
+        navController.navigate(
+            destination.navId,
+            destination.args,
+            navOptions
+        )
     }
+
+    fun goBack() = navController.popBackStack()
 }

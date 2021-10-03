@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import com.mpark.navigationdemo.R
 import com.mpark.navigationdemo.databinding.FragmentWelcomeBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
+import com.mpark.navigationdemo.ui.common.navigation.Destinations
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,7 +36,7 @@ class WelcomeFragment : BaseFragment() {
 
     private fun setupViews() {
         binding.signInBtn.setOnClickListener {
-            screensNavigator.goToLogin()
+            navManager.navigate(Destinations.login)
         }
     }
 

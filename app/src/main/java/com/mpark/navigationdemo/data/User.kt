@@ -1,6 +1,6 @@
 package com.mpark.navigationdemo.data
 
-import com.mpark.navigationdemo.data.model.AppUser
+import com.mpark.navigationdemo.domain.AppUser
 import kotlin.random.Random
 
 data class User(

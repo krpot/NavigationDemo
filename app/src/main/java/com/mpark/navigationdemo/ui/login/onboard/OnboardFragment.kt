@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.mpark.navigationdemo.data.SessionStore
 import com.mpark.navigationdemo.databinding.FragmentOnboardBinding
 import com.mpark.navigationdemo.ui.common.base.BaseFragment
+import com.mpark.navigationdemo.ui.common.navigation.Destinations
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -39,7 +40,7 @@ class OnboardFragment : BaseFragment() {
     private fun setupViews() {
         binding.doneBtn.setOnClickListener {
             sessionStore.onBoarded = true
-            screensNavigator.onboardToHome()
+            navManager.navigate(Destinations.home)
         }
     }
 

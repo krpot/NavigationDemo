@@ -1,6 +1,6 @@
 package com.mpark.navigationdemo.ui.login
 
-import com.mpark.navigationdemo.data.model.AppUser
+import com.mpark.navigationdemo.domain.AppUser
 
 /**
  * User details post authentication that is exposed to the UI

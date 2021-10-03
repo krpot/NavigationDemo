@@ -4,7 +4,6 @@ import com.mpark.navigationdemo.common.dispatcher.DispatchersProvider
 import com.mpark.navigationdemo.common.result.Result
 import com.mpark.navigationdemo.data.LoginDataSource
 import com.mpark.navigationdemo.data.SessionStore
-import com.mpark.navigationdemo.data.model.AppUser
 import kotlinx.coroutines.withContext
 
 /**
